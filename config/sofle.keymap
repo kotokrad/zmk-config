@@ -12,6 +12,30 @@
 &right_encoder { resolution = <2>; };
 
 / {
+
+    behaviors {
+        morph_arr_inc: morph_arrows_increment {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MORPH_ARR_INC";
+            #binding-cells = <0>;
+            bindings = <&kp UP>, <&kp RIGHT>;
+            mods = <(MOD_LGUI)>;
+        };
+        morph_arr_dec: morph_arrows_decrement {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MORPH_ARR_DEC";
+            #binding-cells = <0>;
+            bindings = <&kp DOWN>, <&kp LEFT>;
+            mods = <(MOD_LGUI)>;
+        };
+        enc_arrows: behavior_sensor_rotate_arrows {
+            compatible = "zmk,behavior-sensor-rotate-var";
+            label = "ENC_ARR";
+            #sensor-binding-cells = <2>;
+            bindings = <&morph_arr_inc>, <&morph_arr_dec>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -30,14 +54,14 @@
                  &kp LCTRL &kp LALT &mo 1  &kp LGUI &kp SPACE   &kp RET &mo 2  &kp RCTRL &kp RALT  &kp RGUI
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp C_AC_SCROLL_UP C_AC_SCROLL_DOWN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &enc_arrows>;
         };
 
         lower_layer {
 // TODO: Some binds are waiting for shifted keycode support.
 // ------------------------------------------------------------------------------------------------------------
 // |       |  F1 |  F2 |  F3  |  F4  |  F5  |                   |  F6  |  F7   |  F8   |  F9  |  F10  |  F11  |
-// | `     |   1 |   2 |   3  |   4  |   5  |                   |   _  |   -   |   +   |   =  |    ]  |  F12  |
+// | `     |  1  |  2  |  3   |  4   |  5   |                   |   _  |   -   |   +   |   =  |    ]  |  F12  |
 // |       |  !  |  @  |  #   |  $   |  %   |                   |  (   |  {    |  }    |  )   |       |       |
 // |       |  =  |  -  |  +   |  {   |  }   |        |  |       |      |  [    |  ]    |      |   \   |       |
 //               |     |      |      |      |        |  |       |      |       |       |      |
@@ -67,7 +91,7 @@
                         &trans       &trans       &trans       &trans  &trans   &trans  &trans    &trans    &trans   &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp K_SCROLL_UP K_SCROLL_DOWN>;
         };
     };
 };
