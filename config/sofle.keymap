@@ -29,7 +29,7 @@
             mods = <(MOD_LGUI)>;
         };
         enc_arrows: behavior_sensor_rotate_arrows {
-            compatible = "zmk,behavior-sensor-rotate-var";
+            compatible = "zmk,behavior-sensor-rotate";
             label = "ENC_ARR";
             #sensor-binding-cells = <0>;
             bindings = <&morph_arr_inc>, <&morph_arr_dec>;
